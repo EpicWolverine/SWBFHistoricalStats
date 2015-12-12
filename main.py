@@ -20,7 +20,7 @@
 
 import sys          # for various I/O functions
 import urllib2      # URL fetching and handleing
-import time         # time support (for .clock())
+import time         # time support (for .sleep())
 import datetime     # datetime support
 import json         # JSON parsing
 import re           # regular expressions
@@ -35,14 +35,10 @@ def main():
     getStats("http://api.swbstats.com/api/onlinePlayers")
     generateJSON()
     
-    delay = 300
-    lastTime = 0
-    time.clock() #Start timer
     while True:
-        if time.clock()-lastTime > delay:
-            lastTime = time.clock()
-            getStats("http://api.swbstats.com/api/onlinePlayers")
-            generateJSON()
+		time.sleep(300) # sleep for about 5 minutes
+		getStats("http://api.swbstats.com/api/onlinePlayers")
+		generateJSON()
     
 def getStats(url):
     # try:
