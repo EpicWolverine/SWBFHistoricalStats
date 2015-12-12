@@ -23,6 +23,8 @@ import urllib2      # URL fetching and handleing
 import time         # time support (for .clock())
 import datetime     # datetime support
 import json         # JSON parsing
+import re           # regular expressions
+import os           # for file truncation
 
 def main():
     try: #check to see if the file exists already
@@ -31,6 +33,7 @@ def main():
         open("output.csv", "w").write("Timestamp (UTC), PC, Xbox One, PS4, Total\n")
     
     getStats("http://api.swbstats.com/api/onlinePlayers")
+    generateJSON()
     
     delay = 300
     lastTime = 0
@@ -39,7 +42,7 @@ def main():
         if time.clock()-lastTime > delay:
             lastTime = time.clock()
             getStats("http://api.swbstats.com/api/onlinePlayers")
-
+            generateJSON()
     
 def getStats(url):
     # try:
@@ -48,14 +51,14 @@ def getStats(url):
           
         data = json.load(page)
         
-        outputfile = open("output.csv", "a")
-        outputfile.write(datetime.datetime.utcnow().strftime("%Y/%m/%d %H:%M:%S") + ",")
-        outputfile.write(str(data['pc']['count']) + ",")
-        outputfile.write(str(data['xone']['count']) + ",")
-        outputfile.write(str(data['ps4']['count']) + ",")
-        outputfile.write(str(data['pc']['count'] + data['xone']['count'] + data['ps4']['count']) + "\n")
+        csvoutputfile = open("output.csv", "a")
+        csvoutputfile.write(datetime.datetime.utcnow().strftime("%Y/%m/%d %H:%M:%S") + ",")
+        csvoutputfile.write(str(data['pc']['count']) + ",")
+        csvoutputfile.write(str(data['xone']['count']) + ",")
+        csvoutputfile.write(str(data['ps4']['count']) + ",")
+        csvoutputfile.write(str(data['pc']['count'] + data['xone']['count'] + data['ps4']['count']) + "\n")
         
-        print "Recorded stats at " + datetime.datetime.now().strftime("%Y/%m/%d %H:%M:%S") + " UTC -05:00"
+        print "Recorded stats at " + datetime.datetime.now().strftime("%Y/%m/%d %H:%M:%S") + " UTC -05:00" # this is my timezone and I was too lazy to make it autodetect the timezone since %z doesn't work
         
         # from pprint import pprint
         # pprint(data)
@@ -68,9 +71,26 @@ def getStats(url):
         # print 'Type: ' + str(sys.exc_info()[0])
         # print 'Value: ' + str(sys.exc_info()[1])
         # quit()
-
-def generateJSON(platform):
+        
+def generateJSON():
+    csvoutputfile = open("output.csv", "r")
     
+    jsonoutputfile = open("data.json", "w")
+    jsonoutputfile.write("[")
+    for line in csvoutputfile:
+        values = line.rstrip().split(",")
+        if values[0] == "Timestamp (UTC)": # skip the first line
+            continue
+        dict = {}
+        dict['timestamp'] = values[0]
+        dict['pc'] = values[1]
+        dict['xboxone'] = values[2]
+        dict['ps4'] = values[3]
+        dict['total'] = values[4]
+        jsonoutputfile.write(json.dumps(dict, separators=(',', ': ')) + ",")
+    jsonoutputfile.seek(-1, os.SEEK_END)
+    jsonoutputfile.truncate()
+    jsonoutputfile.write("]")
 
 # This is the standard boilerplate that calls the main() function.
 if __name__ == '__main__':
