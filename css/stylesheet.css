@@ -3,22 +3,34 @@ body {
 	width: device-width;
 	text-align: center;
 }
+div {
+	margin: 2px;
+}
+canvas {
+	display: inline-block;
+	position: relative;
+	z-index: 1;
+}
 #wrapper {
 	font-family: Helvetica, Arial, sans-serif;
 }
 #header {
 	color: #333333;
 	font-size: 36px;
+	margin: 7px;
+}
+.description {
+	color: #555555;
+	font-size: 16px;
+}
+.description a {
+    color: #555555;
 }
 #footer {
 	color: #AAAAAA;
 	font-size: 12px;
+	margin-top: 10px;
 }
 #footer a {
     color: #AAAAAA;
-}
-canvas {
-	display: inline-block;
-	position: relative;
-	z-index: 1;
 }
