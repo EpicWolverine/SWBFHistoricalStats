@@ -6,6 +6,8 @@ Uses data from [swbstats.com](http://swbstats.com). Chart powered by [Chart.js](
 
 Usage
 ===========
+Uses Python 2.7
+
 Run main.py to collect and record data. This will generate two files: output.csv for the master record and data.json for displaying on the web. Open index.html to view the chart.
 
 To-Do
