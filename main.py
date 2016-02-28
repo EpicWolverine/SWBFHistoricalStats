@@ -91,7 +91,7 @@ def generateJSON():
     jsonoutputfile.close()
 	
 def log(msg):
-	print datetime.datetime.utcnow().strftime("%Y/%m/%d %H:%M:%S") + "-" + msg
+	print datetime.datetime.utcnow().strftime("%Y/%m/%d %H:%M:%S") + " - " + msg
 	
 
 # This is the standard boilerplate that calls the main() function.
