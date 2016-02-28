@@ -41,7 +41,7 @@ def main():
 		# generateJSON()
     
 def getStats(url):
-    # try:
+    try:
         page = urllib2.urlopen(urllib2.Request(url, headers={'User-Agent': 'Mozilla/5.0'}))
         #print page.read()
           
@@ -53,8 +53,9 @@ def getStats(url):
         csvoutputfile.write(str(data['xone']['count']) + ",")
         csvoutputfile.write(str(data['ps4']['count']) + ",")
         csvoutputfile.write(str(data['pc']['count'] + data['xone']['count'] + data['ps4']['count']) + "\n")
+		csvoutputfile.close()
         
-        print "Recorded stats at " + datetime.datetime.now().strftime("%Y/%m/%d %H:%M:%S") + " UTC -05:00" # this is my timezone and I was too lazy to make it autodetect the timezone since %z doesn't work
+        log("Successfully recorded stats.")
         
         # from pprint import pprint
         # pprint(data)
@@ -62,11 +63,11 @@ def getStats(url):
         # pprint(data['pc'])
         # pprint(data['pc']['count'])
         
-    # except Exception:
-        # print 'Error: Problem loading stats'
-        # print 'Type: ' + str(sys.exc_info()[0])
-        # print 'Value: ' + str(sys.exc_info()[1])
-        # quit()
+    except Exception:
+        log('Error: Problem loading stats')
+        log('Type: ' + str(sys.exc_info()[0]))
+        log('Value: ' + str(sys.exc_info()[1]))
+        quit()
         
 def generateJSON():
     csvoutputfile = open("output.csv", "r")
@@ -87,6 +88,11 @@ def generateJSON():
     jsonoutputfile.seek(-1, os.SEEK_END)
     jsonoutputfile.truncate()
     jsonoutputfile.write("]")
+	jsonoutputfile.close()
+	
+def log(msg):
+	print datetime.datetime.utcnow().strftime("%Y/%m/%d %H:%M:%S") + "-" + msg
+	
 
 # This is the standard boilerplate that calls the main() function.
 if __name__ == '__main__':
