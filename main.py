@@ -53,7 +53,7 @@ def getStats(url):
         csvoutputfile.write(str(data['xone']['count']) + ",")
         csvoutputfile.write(str(data['ps4']['count']) + ",")
         csvoutputfile.write(str(data['pc']['count'] + data['xone']['count'] + data['ps4']['count']) + "\n")
-		csvoutputfile.close()
+        csvoutputfile.close()
         
         log("Successfully recorded stats.")
         
@@ -88,7 +88,7 @@ def generateJSON():
     jsonoutputfile.seek(-1, os.SEEK_END)
     jsonoutputfile.truncate()
     jsonoutputfile.write("]")
-	jsonoutputfile.close()
+    jsonoutputfile.close()
 	
 def log(msg):
 	print datetime.datetime.utcnow().strftime("%Y/%m/%d %H:%M:%S") + "-" + msg
