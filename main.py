@@ -33,12 +33,12 @@ def main():
         open("output.csv", "w").write("Timestamp (UTC), PC, Xbox One, PS4, Total\n")
     
     getStats("http://api.swbstats.com/api/onlinePlayers")
-    generateJSON()
+    # generateJSON()
     
-    while True:
-		time.sleep(300) # sleep for about 5 minutes
-		getStats("http://api.swbstats.com/api/onlinePlayers")
-		generateJSON()
+    # while True:
+		# time.sleep(300) # sleep for about 5 minutes
+		# getStats("http://api.swbstats.com/api/onlinePlayers")
+		# generateJSON()
     
 def getStats(url):
     # try:
