@@ -92,7 +92,7 @@ def generateJSON():
 	
 def log(msg):
     logoutputfile = open("log.txt", "a")
-    logoutputfile.write(str(datetime.datetime.utcnow().strftime("%Y/%m/%d %H:%M:%S") + " - " + msg))
+    logoutputfile.write(str(datetime.datetime.utcnow().strftime("%Y/%m/%d %H:%M:%S") + " - " + msg + "\n"))
     print datetime.datetime.utcnow().strftime("%Y/%m/%d %H:%M:%S") + " - " + msg
 	
 
